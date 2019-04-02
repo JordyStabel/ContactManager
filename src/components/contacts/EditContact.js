@@ -1,5 +1,8 @@
 import React, { Component } from "react";
 import TextInputGroup from "../layout/TextInputGroup";
+import PropTypes from "prop-types";
+import { connect } from "react-redux";
+import { getContact, updateContact } from "../../actions/contactActions";
 
 class EditContact extends Component {
   state = {
@@ -9,7 +12,26 @@ class EditContact extends Component {
     errors: {}
   };
 
+  // MIGHT BE/GET DEPRECATED
+  componentWillReceiveProps(nextProps, nextState) {
+    const { name, email, phone } = nextProps.contact;
+    this.setState({
+      name, // When the property name and parameter name are the same,
+      // there is no need for "this.name = name" just 'name' works
+      email,
+      phone
+    });
+  }
+
+  // Every time this component mounts, it will call this function
+  // Pulls the id from the props and call getContact action with the id as parameter
+  componentDidMount() {
+    const { id } = this.props.match.params;
+    this.props.getContact(id);
+  }
+
   onSubmit = event => {
+    // Prevent default unwanted stuff to happen
     event.preventDefault();
 
     const { name, email, phone } = this.state;
@@ -30,15 +52,16 @@ class EditContact extends Component {
       return;
     }
 
-    const updContact = {
+    const { id } = this.props.match.params;
+
+    const updatedContact = {
+      id,
       name,
       email,
       phone
     };
 
-    const { id } = this.props.match.params;
-
-    //// UPDATE CONTACT ////
+    this.props.updateContact(updatedContact);
 
     // Clear State
     this.setState({
@@ -99,4 +122,17 @@ class EditContact extends Component {
   }
 }
 
-export default EditContact;
+EditContact.protoTyps = {
+  contact: PropTypes.object.isRequired,
+  getContact: PropTypes.func.isRequired,
+  updateContact: PropTypes.func.isRequired
+};
+
+const mapStateToProps = state => ({
+  contact: state.contact.contact // Single contact (object)
+});
+
+export default connect(
+  mapStateToProps,
+  { getContact, updateContact }
+)(EditContact);
