@@ -1,6 +1,6 @@
-import React from "react";
-import PropTypes from "prop-types";
-import { Link } from "react-router-dom";
+import React from 'react';
+import PropTypes from 'prop-types';
+import { Link } from 'react-router-dom';
 
 const Header = props => {
   const { branding } = props;
@@ -34,14 +34,12 @@ const Header = props => {
   );
 };
 
-// Will use the default props when there are no other props given
 Header.defaultProps = {
-  branding: "My app"
+  branding: 'My App'
 };
 
-// Will force a required proptype
 Header.propTypes = {
-  branding: PropTypes.number.isRequired
+  branding: PropTypes.string.isRequired
 };
 
 export default Header;
