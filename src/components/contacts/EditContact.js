@@ -9,8 +9,8 @@ class EditContact extends Component {
     errors: {}
   };
 
-  onSubmit = e => {
-    e.preventDefault();
+  onSubmit = event => {
+    event.preventDefault();
 
     const { name, email, phone } = this.state;
 
@@ -51,7 +51,8 @@ class EditContact extends Component {
     this.props.history.push("/");
   };
 
-  onChange = e => this.setState({ [e.target.name]: e.target.value });
+  onChange = event =>
+    this.setState({ [event.target.name]: event.target.value });
 
   render() {
     const { name, email, phone, errors } = this.state;
@@ -64,7 +65,7 @@ class EditContact extends Component {
             <TextInputGroup
               label="Name"
               name="name"
-              placeholder="Enter Name"
+              placeholder="Enter Name..."
               value={name}
               onChange={this.onChange}
               error={errors.name}
@@ -73,7 +74,7 @@ class EditContact extends Component {
               label="Email"
               name="email"
               type="email"
-              placeholder="Enter Email"
+              placeholder="Enter Email..."
               value={email}
               onChange={this.onChange}
               error={errors.email}
@@ -81,7 +82,7 @@ class EditContact extends Component {
             <TextInputGroup
               label="Phone"
               name="phone"
-              placeholder="Enter Phone"
+              placeholder="Enter Phone..."
               value={phone}
               onChange={this.onChange}
               error={errors.phone}
